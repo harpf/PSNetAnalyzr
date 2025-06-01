@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+    <Type>
+        <Name>BasicModule.basicService.Service</Name>
+        <Members>
+            <ScriptMethod>
+                <Name>stopBasicService</Name>
+                <Script>stop-service -name $this.name</Script>
+            </ScriptMethod>
+            <ScriptMethod>
+                <Name>startBasicService</Name>
+                <Script>start-service -name $this.name</Script>
+            </ScriptMethod>
+            <ScriptProperty>
+                <Name>CleanDP</Name>
+                <GetScriptBlock>
+                    ($this.Displayname.tolower()).replace(" ","")
+                </GetScriptBlock>
+            </ScriptProperty>
+            <AliasProperty>
+                <Name>DP</Name>
+                <ReferencedMemberName>
+                    Displayname
+                </ReferencedMemberName>
+            </AliasProperty>
+        <MemberSet>
+            <Name>PSStandardMembers</Name>
+        <Members>
+        <PropertySet>
+          <Name>DefaultDisplayPropertySet</Name>
+          <ReferencedProperties>
+            <Name>Name</Name>
+            <Name>Status</Name>
+          </ReferencedProperties>
+        </PropertySet>
+      </Members>
+    </MemberSet>
+    <PropertySet>
+        <Name>allInfos</Name>
+        <ReferencedProperties>
+            <Name>Name</Name>
+            <Name>Status</Name>
+            <Name>Displayname</Name>
+        </ReferencedProperties>
+    </PropertySet>
+    </Members>
+    </Type>
+</Types>
