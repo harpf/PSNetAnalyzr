@@ -75,29 +75,29 @@ Get-NADataLinkMacTable -Target 192.168.1.1 -Version 2c -Community public
         throw "snmpwalk.exe not found at: $exePath"
     }
 
-    $args = @("-m", '""', "-v", $Version)
+    $paramargs = @("-m", '""', "-v", $Version)
 
     switch ($Version) {
-        '1' { $args += @("-c", $Community, $Target, $baseOid) }
-        '2c' { $args += @("-c", $Community, $Target, $baseOid) }
+        '1' { $paramargs += @("-c", $Community, $Target, $baseOid) }
+        '2c' { $paramargs += @("-c", $Community, $Target, $baseOid) }
         '3' {
             $level = if ($PrivProtocol -and $PrivPassword) { "authPriv" } else { "authNoPriv" }
-            $args += @(
+            $paramargs += @(
                 "-l", $level,
                 "-u", $Username,
                 "-a", "SHA",
                 "-A", $AuthPassword
             )
             if ($level -eq "authPriv") {
-                $args += @("-x", $PrivProtocol, "-X", $PrivPassword)
+                $paramargs += @("-x", $PrivProtocol, "-X", $PrivPassword)
             }
-            $args += @($Target, $baseOid)
+            $paramargs += @($Target, $baseOid)
         }
     }
 
     try {
         if ($LogPath) {
-            Write-NAHelperLog -Message "Executing: $exePath $($args -join ' ')" -Type Info -Path $LogPath
+            Write-NAHelperLog -Message "Executing: $exePath $($paramargs -join ' ')" -Type Info -Path $LogPath
         }
 
         $output = & "$exePath" @args 2>&1
