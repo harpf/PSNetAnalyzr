@@ -29,6 +29,14 @@ Focuses on hardware aspects such as cables, NICs, and link status.
 - **`Get-NANICDetails`**  
   Provides NIC details such as manufacturer, driver version, PCI info, and current duplex settings.
 
+### 🔍 Layer 1 Function Comparison
+
+| Funktion               | Beschreibung                         | Rückgabe         | Remote | Besonderheiten                  |
+|------------------------|--------------------------------------|------------------|--------|----------------------------------|
+| `Get-NANetworkInterfaceStats` | Zeigt Status, Speed, MAC etc.       | Objekt/Adapter   | ✅      | `-Detailed` für erweiterte Infos |
+| `Test-NACableConnection`     | Prüft physische Link-Status         | Objekt/Status    | ❌      | Direkt via .NET API              |
+| `Get-NANICDetails`           | Zeigt Treiber-, Herstellerinfos     | Objekt/NICInfo   | ✅      | Mit PCI-ID & Logging             |
+
 ---
 
 ### Layer 2 – Data Link  

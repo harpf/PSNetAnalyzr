@@ -1,13 +1,13 @@
-function Test-LatestModuleVersion {
+function Test-NALatestModuleVersion {
     <#
         .SYNOPSIS
         Checks if the local PowerShell module version is up-to-date with the latest GitHub release.
 
         .PARAMETER Repository
-        Der GitHub-Repository in der Form "owner/repo" (z. B. "JonasZauner/NetzwerkToolkit")
+        Der GitHub-Repository in der Form "owner/repo" (z. B. "harpf/PSNetAnalyzr")
 
         .EXAMPLE
-        Test-LatestModuleVersion -Repository "JonasZauner/NetzwerkToolkit"
+        Test-NALatestModuleVersion -Repository "harpf/PSNetAnalyzr"
     #>
     [CmdletBinding()]
     param (
@@ -21,7 +21,7 @@ function Test-LatestModuleVersion {
         $manifestFile = Get-ChildItem -Path $scriptDirectory -Filter "*.psd1" -Recurse -ErrorAction Stop | Select-Object -First 1
         $manifest = Import-PowerShellDataFile -Path $manifestFile.FullName
         $localVersion = [version]$manifest.ModuleVersion
-        $moduleName = $manifest.Description
+        $moduleName = $manifest.RootModule -split '.psm1$' | Select-Object -First 1
 
         $apiUrl = "https://api.github.com/repos/$Repository/releases/latest"
         $headers = @{ "User-Agent" = "PowerShell" } # GitHub verlangt einen User-Agent
@@ -32,7 +32,7 @@ function Test-LatestModuleVersion {
             Write-Host "[$localVersion] --> [$latestVersion] A newer version of '$moduleName' is available on GitHub!" -ForegroundColor Yellow
         }
         elseif ($localVersion -eq $latestVersion) {
-            Write-Host "[$localVersion] The module '$moduleName' is up to date with GitHub release." -ForegroundColor Green
+            Write-Information "[$localVersion] The module '$moduleName' is up to date with GitHub release."
         }
         else {
             Write-Warning "Local version [$localVersion] is newer than GitHub release [$latestVersion]."

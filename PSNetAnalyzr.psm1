@@ -29,10 +29,11 @@ Split-Path -Path $PSCommandPath |
             ForEach-Object { . $_.FullName }
 
 
+#. "$($PSScriptRoot)\Assets\icons.ps1"
 ## Module configuration
 
 # Module path
 New-Variable -Name 'ModulePath' -Value $PSScriptRoot
 
 # Test for latest module version
-#Test-LatestModuleVersion -ErrorAction SilentlyContinue 
+Test-NALatestModuleVersion -Repository "harpf/PSNetAnalyzr"
